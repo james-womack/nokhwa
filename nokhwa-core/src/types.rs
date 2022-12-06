@@ -1764,7 +1764,7 @@ pub fn buf_nv12_to_rgb(
         });
     }
 
-    if data.len() != ((resolution.width() * resolution.height() * 3) / 2) as usize {
+    if data.len() != ((resolution.width() * resolution.height() * 4) / 2) as usize {
         return Err(NokhwaError::ProcessFrameError {
             src: FrameFormat::NV12,
             destination: "RGB".to_string(),
