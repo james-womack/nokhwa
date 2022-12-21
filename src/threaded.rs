@@ -100,8 +100,17 @@ impl CallbackCamera {
     ///
     /// You **must** have set a format beforehand.
     pub fn with_custom(camera: Camera, callback: impl FnMut(Buffer) + Send + 'static) -> Self {
+        let arc_camera = Arc::new(Mutex::new(camera));
+        let current_camera = arc_camera
+            .lock()
+            .map_err(|why| NokhwaError::GetPropertyError {
+                property: "CameraInfo".to_string(),
+                error: why.to_string(),
+            })?
+            .info()
+            .clone();
         CallbackCamera {
-            camera: Arc::new(Mutex::new(camera)),
+            camera: arc_camera,
             frame_callback: Arc::new(Mutex::new(Box::new(callback))),
             last_frame_captured: Arc::new(Mutex::new(Buffer::new(
                 Resolution::new(0, 0),
