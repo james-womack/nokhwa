@@ -109,7 +109,7 @@ impl CallbackCamera {
             })?
             .info()
             .clone();
-        CallbackCamera {
+        Ok(CallbackCamera {
             camera: arc_camera,
             frame_callback: Arc::new(Mutex::new(Box::new(callback))),
             last_frame_captured: Arc::new(Mutex::new(Buffer::new(
@@ -120,7 +120,7 @@ impl CallbackCamera {
             die_bool: Arc::new(Default::default()),
             current_camera,
             handle: Arc::new(Mutex::new(None)),
-        }
+        })
     }
 
     /// Gets the current Camera's index.
