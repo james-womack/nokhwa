@@ -99,7 +99,7 @@ impl CallbackCamera {
     /// Allows creation of a [`Camera`] with a custom backend. This is useful if you are creating e.g. a custom module.
     ///
     /// You **must** have set a format beforehand.
-    pub fn with_custom(camera: Camera, callback: impl FnMut(Buffer) + Send + 'static) -> Self {
+    pub fn with_custom(camera: Camera, callback: impl FnMut(Buffer) + Send + 'static) -> Result<Self, NokhwaError> {
         let arc_camera = Arc::new(Mutex::new(camera));
         let current_camera = arc_camera
             .lock()
